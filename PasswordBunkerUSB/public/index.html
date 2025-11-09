@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Password Bunker USB</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Password Bunker</h1>
+
+<section id="login">
+  <input type="password" id="mp" placeholder="Contraseña maestra">
+  <div class="btn-row">
+    <button class="neon" onclick="unlock()">Desbloquear</button>
+    <button class="neon muted" onclick="lock()">Bloquear</button>
+    <button class="neon muted" onclick="changeMP()">Cambiar contraseña</button>
+  </div>
+</section>
+
+<section id="panel" style="display:none">
+  <div class="btn-row">
+    <button class="neon" onclick="showNew()">+ Nueva entrada</button>
+    <input id="search" placeholder="Buscar link…" oninput="filterList()">
+  </div>
+
+  <div id="list" class="list"></div>
+
+  <form id="form" class="card" style="display:none">
+    <label>Link</label>
+    <input id="fLink" type="url" placeholder="https://ejemplo.com">
+    <label>Usuario</label>
+    <input id="fUser" placeholder="user">
+    <label>Contraseña</label>
+    <div class="pass-box">
+      <input id="fPass" type="password" placeholder="••••••••">
+    </div>
+    <label>Notas</label>
+    <textarea id="fNotes" rows="3"></textarea>
+
+    <div class="btn-row">
+      <button type="button" class="neon save" onclick="saveEntry()">Guardar</button>
+      <button type="button" class="neon danger" onclick="delEntry()">Borrar</button>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="neon" onclick="copyLink()">Copiar link</button>
+      <button type="button" class="neon" onclick="copyUser()">Copiar usuario</button>
+      <button type="button" class="neon" onclick="copyPass()">Copiar contraseña</button>
+    </div>
+  </form>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

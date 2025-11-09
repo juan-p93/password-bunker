@@ -1,0 +1,105 @@
+/* ---------- ROOT VARS ---------- */
+:root{
+  --bg:#0a0a0a;
+  --surface:#111111;
+  --neon:#39ff14;
+  --neon-glow:0 0 2px var(--neon),0 0 5px var(--neon),0 0 10px var(--neon);
+  --muted:#222;
+  --danger:#ff1b4d;
+  --font:'Segoe UI',Arial,Helvetica,sans-serif;
+}
+
+/* ---------- BASE ---------- */
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--neon);
+  font-family:var(--font);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-height:100vh;
+  padding:2rem;
+}
+h1{margin-bottom:1.5rem;text-transform:uppercase;letter-spacing:3px;text-shadow:var(--neon-glow)}
+
+/* ---------- LOGIN ---------- */
+#login{display:flex;flex-direction:column;gap:.75rem;width:100%;max-width:400px}
+#login input{font-size:1.1rem;padding:.75rem;border:1px solid var(--neon);background:var(--surface);color:var(--neon);border-radius:4px;outline:none;transition:.2s}
+#login input:focus{box-shadow:var(--neon-glow)}
+
+/* ---------- BUTTONS ---------- */
+.btn-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem}
+button.neon{
+  flex:1 1 120px;
+  height:44px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 1rem;
+  border:1px solid var(--neon);
+  background:transparent;
+  color:var(--neon);
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  border-radius:4px;
+  cursor:pointer;
+  transition:.3s;
+  position:relative;
+}
+button.neon:hover{background:var(--neon);color:var(--bg);box-shadow:var(--neon-glow)}
+button.neon.muted{opacity:.7}
+button.neon.save{border-color:#00ffc8;color:#00ffc8}
+button.neon.save:hover{background:#00ffc8;color:var(--bg)}
+button.neon.danger{border-color:var(--danger);color:var(--danger)}
+button.neon.danger:hover{background:var(--danger);color:var(--bg)}
+
+/* ---------- PANEL ---------- */
+#panel{width:100%;max-width:700px;margin-top:2rem}
+#search{width:100%;padding:.6rem;border:1px solid var(--neon);background:var(--surface);color:var(--neon);border-radius:4px;margin-bottom:1rem}
+
+/* ---------- LIST ---------- */
+.list{display:flex;flex-direction:column;gap:.75rem}
+.list div{
+  background:var(--surface);
+  border-left:3px solid var(--neon);
+  padding:.75rem 1rem;
+  margin-bottom:.5rem;
+  border-radius:4px;
+  cursor:pointer;
+  transition:.2s;
+}
+.list div:hover{background:var(--muted);box-shadow:var(--neon-glow)}
+
+/* ---------- FORM CARD ---------- */
+.card{
+  background:var(--surface);
+  border:1px solid var(--neon);
+  border-radius:6px;
+  padding:1.5rem;
+  margin-top:1.5rem;
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+  box-shadow:0 0 10px rgba(57,255,20,.25)
+}
+.card label{text-transform:uppercase;font-size:.8rem;letter-spacing:1px}
+.card input,.card textarea{
+  padding:.6rem;
+  border:1px solid var(--muted);
+  background:var(--bg);
+  color:var(--neon);
+  border-radius:4px;
+  outline:none;
+  transition:.2s
+}
+.card input:focus,.card textarea:focus{border-color:var(--neon);box-shadow:var(--neon-glow)}
+.pass-box{display:flex;gap:.5rem}
+.pass-box input{flex:1}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:600px){
+  h1{font-size:1.5rem}
+  .btn-row{flex-direction:column}
+}

@@ -1,0 +1,59 @@
+{
+  "build": {
+    "beforeDevCommand": "",
+    "beforeBuildCommand": "",
+    "devPath": "../public",
+    "distDir": "../public",
+    "withGlobalTauri": true
+  },
+  "package": {
+    "productName": "PasswordBunker",
+    "version": "1.0.0"
+  },
+  "tauri": {
+    "bundle": {
+      "active": true,
+      "targets": ["msi"],
+      "identifier": "com.passwordbunker.usb",
+      "icon": [],
+      "resources": [],
+      "externalBin": [],
+      "copyright": "",
+      "category": "Utility",
+      "shortDescription": "Password manager portable USB",
+      "longDescription": "Guarda contraseñas en USB encriptadas"
+    },
+    "allowlist": {
+      "all": false,
+      "shell": {
+        "all": false,
+        "open": true
+      },
+      "clipboard": {
+        "all": true
+      },
+      "fs": {
+        "all": false,
+        "writeFile": true,
+        "readFile": true
+      },
+      "path": {
+        "all": true
+      }
+    },
+    "windows": [
+      {
+        "title": "Password Bunker USB",
+        "width": 750,
+        "height": 650,
+        "resizable": false,
+        "fullscreen": false,
+        "transparent": false,
+        "alwaysOnTop": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';"
+    }
+  }
+}
