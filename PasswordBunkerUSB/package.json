@@ -1,7 +1,13 @@
 {
-  "name": "password-bunker",
-  "version": "1.0.0",
   "scripts": {
-    "build": "cargo tauri build"
+    "start": "tauri dev",
+    "build": "vite build",            // o el comando que use tu frontend para prod
+    "tauri:build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0"      // ajusta versión según tu proyecto
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.0.0"
   }
 }
