@@ -10,15 +10,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Ensure public directory exists
+        run: |
+          if not exist public mkdir public
+          if not exist public\index.html echo ^<html^>^<body^>Test^</body^>^</html^> > public\index.html
+          
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
         
       - name: Install Tauri CLI v1
         run: cargo install tauri-cli --version ^1.5
-        
-      - name: Create tauri.conf.json
-        run: |
-          echo '{ "build": { "devPath": "../public", "distDir": "../public", "withGlobalTauri": true }, "package": { "productName": "Password Bunker", "version": "1.0.0" }, "tauri": { "bundle": { "identifier": "com.passwordbunker.usb", "targets": ["msi"] }, "allowlist": { "clipboard": { "all": true }, "fs": { "writeFile": true, "readFile": true }, "path": { "all": true } }, "windows": [{ "title": "Password Bunker USB", "width": 750, "height": 650, "resizable": false }] } }' > tauri.conf.json
         
       - name: Build
         run: cargo tauri build
