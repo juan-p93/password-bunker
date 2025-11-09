@@ -1,41 +1,93 @@
-name: Build Tauri App
+name: Build Tauri (Windows)
+
+# Ejecutar en push a main o manualmente
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build-windows:
     runs-on: windows-latest
+    env:
+      CARGO_TERM_COLOR: always
+
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Create public directory
-        run: mkdir public
-      
-      - name: Create index.html (CMD)
-        run: |
-          echo ^<^!DOCTYPE html^>^<html^>^<head^>^<meta charset="utf-8"^>^<title^>Password Bunker^</title^>^<link rel="stylesheet" href="styles.css"^>^</head^>^<body^>^<h1^>Password Bunker^</h1^>^<section id="login"^>^<input type="password" id="mp" placeholder="Contraseña maestra"^>^<div class="btn-row"^>^<button class="neon" onclick="unlock()"^>Desbloquear^</button^>^<button class="neon muted" onclick="lock()"^>Bloquear^</button^>^<button class="neon muted" onclick="changeMP()"^>Cambiar contraseña^</button^>^</div^>^</section^>^<section id="panel" style="display:none"^>^<div class="btn-row"^>^<button class="neon" onclick="showNew()"^>+ Nueva entrada^</button^>^<input id="search" placeholder="Buscar link…" oninput="filterList()"^>^</div^>^<div id="list" class="list"^>^</div^>^<form id="form" class="card" style="display:none"^>^<label^>Link^</label^>^<input id="fLink" type="url" placeholder="https://ejemplo.com"^>^<label^>Usuario^</label^>^<input id="fUser" placeholder="user"^>^<label^>Contraseña^</label^>^<div class="pass-box"^>^<input id="fPass" type="password" placeholder="••••••••"^>^</div^>^<label^>Notas^</label^>^<textarea id="fNotes" rows="3"^>^</textarea^>^<div class="btn-row"^>^<button type="button" class="neon save" onclick="saveEntry()"^>Guardar^</button^>^<button type="button" class="neon danger" onclick="delEntry()"^>Borrar^</button^>^</div^>^<div class="btn-row"^>^<button type="button" class="neon" onclick="copyLink()"^>Copiar link^</button^>^<button type="button" class="neon" onclick="copyUser()"^>Copiar usuario^</button^>^<button type="button" class="neon" onclick="copyPass()"^>Copiar contraseña^</button^>^</div^>^</form^>^</section^>^<script src="main.js"^>^</script^>^</body^>^</html^> > public\index.html
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Create styles.css (CMD)
-        run: |
-          echo :root{--bg:#0a0a0a;--surface:#111;--neon:#39ff14;--font:"Segoe UI",Arial,sans-serif}*{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--neon);font-family:var(--font);display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:2rem}h1{margin-bottom:1.5rem;text-transform:uppercase;letter-spacing:3px;text-shadow:0 0 2px var(--neon),0 0 5px var(--neon),0 0 10px var(--neon)}#login{display:flex;flex-direction:column;gap:.75rem;width:100%;max-width:400px}#login input{font-size:1.1rem;padding:.75rem;border:1px solid var(--neon);background:var(--surface);color:var(--neon);border-radius:4px;outline:none;transition:.2s}#login input:focus{box-shadow:0 0 2px var(--neon),0 0 5px var(--neon),0 0 10px var(--neon)}.btn-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem}button.neon{flex:1 1 120px;height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0 1rem;border:1px solid var(--neon);background:transparent;color:var(--neon);font-weight:600;text-transform:uppercase;letter-spacing:1px;border-radius:4px;cursor:pointer;transition:.3s}button.neon:hover{background:var(--neon);color:var(--bg);box-shadow:0 0 2px var(--neon),0 0 5px var(--neon),0 0 10px var(--neon)}button.neon.muted{opacity:.7}button.neon.save{border-color:#00ffc8;color:#00ffc8}button.neon.save:hover{background:#00ffc8;color:var(--bg)}button.neon.danger{border-color:#ff1b4d;color:#ff1b4d}button.neon.danger:hover{background:#ff1b4d;color:var(--bg)}#panel{width:100%;max-width:700px;margin-top:2rem}#search{width:100%;padding:.6rem;border:1px solid var(--neon);background:var(--surface);color:var(--neon);border-radius:4px;margin-bottom:1rem}.list{display:flex;flex-direction:column;gap:.75rem}.list div{background:var(--surface);border-left:3px solid var(--neon);padding:.75rem 1rem;margin-bottom:.5rem;border-radius:4px;cursor:pointer;transition:.2s}.list div:hover{background:#222;box-shadow:0 0 2px var(--neon),0 0 5px var(--neon),0 0 10px var(--neon)}.card{background:var(--surface);border:1px solid var(--neon);border-radius:6px;padding:1.5rem;margin-top:1.5rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:0 0 10px rgba(57,255,20,.25)}.card label{text-transform:uppercase;font-size:.8rem;letter-spacing:1px}.card input,.card textarea{padding:.6rem;border:1px solid #222;background:var(--bg);color:var(--neon);border-radius:4px;outline:none;transition:.2s}.card input:focus,.card textarea:focus{border-color:var(--neon);box-shadow:0 0 2px var(--neon),0 0 5px var(--neon),0 0 10px var(--neon)}.pass-box{display:flex;gap:.5rem}.pass-box input{flex:1}@media(max-width:600px){h1{font-size:1.5rem}.btn-row{flex-direction:column}} > public\styles.css
+      - name: Cache cargo registry & index
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
 
-      - name: Create main.js (CMD)
-        run: |
-          echo const{invoke}=window.__TAURI__.core;let currentId=null;async function unlock(){const mp=document.getElementById("mp").value;const ok=await invoke("unlock",{password:mp});if(ok){document.getElementById("login").style.display="none";document.getElementById("panel").style.display="block";loadList()}else{alert("❌ Contraseña maestra incorrecta")}}function lock(){document.getElementById("login").style.display="flex";document.getElementById("panel").style.display="none";document.getElementById("mp").value="";document.getElementById("form").style.display="none";invoke("lock")}async function changeMP(){const old=prompt("Contraseña actual:");const nueva=prompt("Nueva contraseña:");if(!old||!nueva)return;const ok=await invoke("change_master_password",{oldPass:old,newPass:nueva});alert(ok?"✅ Contraseña cambiada":"❌ Error")}function showNew(){currentId=crypto.randomUUID();document.getElementById("form").style.display="flex";document.getElementById("fLink").value="";document.getElementById("fUser").value="";document.getElementById("fPass").value="";document.getElementById("fNotes").value=""}async function loadList(filter=""){const entries=await invoke("get_entries",{filter});const list=document.getElementById("list");list.innerHTML=entries.map(e=>`<div onclick="editEntry('${e.id}')"><strong>${e.link}</strong><br><small>${e.user}</small></div>`).join("")}function filterList(){const term=document.getElementById("search").value;loadList(term)}async function editEntry(id){currentId=id;const entries=await invoke("get_entries",{filter:""});const entry=entries.find(e=>e.id===id);if(entry){document.getElementById("fLink").value=entry.link;document.getElementById("fUser").value=entry.user;document.getElementById("fPass").value=entry.pass;document.getElementById("fNotes").value=entry.notes;document.getElementById("form").style.display="flex"}}async function saveEntry(){const entry={id:currentId,link:document.getElementById("fLink").value,user:document.getElementById("fUser").value,pass:document.getElementById("fPass").value,notes:document.getElementById("fNotes").value};await invoke("save_entry",{entry});loadList();document.getElementById("form").style.display="none";alert("✅ Guardado en USB")}async function delEntry(){if(!confirm("¿Borrar esta entrada?"))return;await invoke("delete_entry",{id:currentId});loadList();document.getElementById("form").style.display="none"}async function copyLink(){await invoke("copy_to_clipboard",{text:document.getElementById("fLink").value})}async function copyUser(){await invoke("copy_to_clipboard",{text:document.getElementById("fUser").value})}async function copyPass(){await invoke("copy_to_clipboard",{text:document.getElementById("fPass").value})} > public\main.js
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-        
-      - name: Install Tauri CLI v1
-        run: cargo install tauri-cli --version ^1.5
-        
-      - name: Build
-        run: cargo tauri build
-        
-      - name: Upload EXE
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install frontend dependencies
+        run: npm ci
+        # si usas yarn: reemplaza con `yarn install --frozen-lockfile`
+
+      - name: Build frontend (production)
+        run: npm run build
+        # Asegúrate que package.json tenga "build" que genere la carpeta "dist" o "public"
+        # Por ejemplo para Vite: "build": "vite build" ; para React CRA: "build": "react-scripts build"
+
+      - name: Setup Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+
+      - name: Ensure MSVC target and needed components
+        run: |
+          rustup target add x86_64-pc-windows-msvc
+          rustup component add clippy --toolchain stable
+        shell: bash
+
+      - name: Build Tauri (cargo + tauri)
+        working-directory: .
+        run: |
+          # Si usas tauri = ^1.0, usar npx tauri build
+          # Ejecuta desde la raíz del repo, asumiendo que src-tauri existe
+          npx --yes @tauri-apps/cli@latest build --target x86_64-pc-windows-msvc --release
+        env:
+          # Si necesitas variables (por ejemplo TAURI_*), ponlas aquí o en Secrets
+          # TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          RUSTFLAGS: "-C target-cpu=native"
+
+      - name: List build output
+        run: |
+          echo "=== Lista target/release/bundle/windows ==="
+          dir src-tauri\target\release\bundle\windows || true
+          echo "=== Lista src-tauri/target/release ==="
+          dir src-tauri\target\release || true
+        shell: cmd
+
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: password-bunker-exe
-          path: src-tauri/target/release/*.exe
+          name: tauri-windows-bundle
+          path: |
+            src-tauri/target/release/bundle/windows/**
+            src-tauri/target/release/*.exe
+            src-tauri/target/release/*.msi
+
           
