@@ -7,7 +7,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "PasswordBunker",
+    "productName": "Password Bunker",
     "version": "1.0.0"
   },
   "tauri": {
