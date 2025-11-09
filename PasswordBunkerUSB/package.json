@@ -1,0 +1,7 @@
+{
+  "name": "password-bunker",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cargo tauri build"
+  }
+}
