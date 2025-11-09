@@ -1,8 +1,7 @@
-
 {
   "build": {
-    "devPath": "../public",
-    "distDir": "../public",
+    "devPath": "./public",
+    "distDir": "./public",
     "withGlobalTauri": true
   },
   "package": {
@@ -27,4 +26,5 @@
     }]
   }
 }
+
 
